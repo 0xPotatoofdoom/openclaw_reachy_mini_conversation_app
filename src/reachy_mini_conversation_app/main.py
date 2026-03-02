@@ -174,6 +174,8 @@ def run(
         )
 
     # Each async service → its own thread/loop
+    from reachy_mini_conversation_app.telegram_bridge import bridge as _tbridge
+    _tbridge.start()
     movement_manager.start()
     head_wobbler.start()
     if camera_worker:

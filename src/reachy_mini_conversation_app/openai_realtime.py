@@ -17,6 +17,7 @@ from scipy.signal import resample
 from websockets.exceptions import ConnectionClosedError
 
 from reachy_mini_conversation_app.config import config
+from reachy_mini_conversation_app.telegram_bridge import bridge as _telegram_bridge
 from reachy_mini_conversation_app.prompts import get_session_voice, get_session_instructions
 from reachy_mini_conversation_app.tools.core_tools import (
     ToolDependencies,
@@ -232,6 +233,7 @@ class OpenaiRealtimeHandler(AsyncStreamHandler):
     async def _run_realtime_session(self) -> None:
         """Establish and manage a single realtime session."""
         async with self.client.realtime.connect(model=config.MODEL_NAME) as conn:
+            _telegram_bridge.register_connection(conn, asyncio.get_event_loop())
             try:
                 await conn.session.update(
                     session={

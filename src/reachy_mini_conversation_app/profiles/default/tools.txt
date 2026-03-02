@@ -6,3 +6,6 @@ camera
 do_nothing
 head_tracking
 move_head
+run_shell
+read_file
+git_status
